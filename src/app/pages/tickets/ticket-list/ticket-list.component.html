@@ -1,0 +1,41 @@
+<div>
+<!--    <ng-container *ngIf="loadCountBlock">-->
+<!--      <p>Доступно для бронирования : {{tickets.length}}</p>-->
+<!--    </ng-container>-->
+  <div class="mt-2 mb-4 input-box">
+    <input #ticketSearch [(ngModel)]="ticketSearchValue" type="text" pInputText/>
+    <label class="d-flex flex-wrap small color-text"><em>поиск тура</em></label>
+  </div>
+  <div appBlocksStyle
+       *ngIf="tickets"
+       #tourWrap
+       #blockDirective='blockStyle'
+       [selector]="'.ticket-item'"
+       [initFirst]="false"
+       (renderComplete)="directiveRenderComplete($event)"
+       class="d-flex flex-wrap justify-content-around ">
+    <div *ngFor="let item of tickets; let i=index"
+         class="ticket-item col-3 m-2 parent">
+      <div class="ticket-title">{{item.name}}</div>
+      <div class="ticket-price">Цена: {{item.price}} руб.</div>
+      <div class="ticket-location">Город: {{item.location}} , отправление {{item.date | date:"dd/MM/yyyy"}}</div>
+      <div (click)="goToTicketInfoPage(item)" class="ticket-img">
+        <img class="w-100" src="http://localhost:3000/public/{{item.img}}"/>
+      </div>
+      <div *ngIf="_hasView" class="child">
+        <button pTooltip="удалить тур из базы"  tooltipPosition="top" pButton pRipple type="button" icon="pi pi-times"
+                class="p-button-rounded p-button-danger d-flex m-2"
+                (click)="showDeleteTourDialog(item)"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog  [(visible)]="displayDeleteTour" [style]="{width: '40vw'}"
+           [draggable]="false" [resizable]="false">
+  <p class="fon-footer-1">Вы уверены, что хотите удалить из базы тур <span class="color-accent">{{tourName}} от {{tourDate| date:"dd/MM/yyyy"}}</span>?<br>Действие невозможно отменить</p>
+  <ng-template pTemplate="footer">
+    <p-button (click)="deleteTourById()" label="Да, удалить тур" styleClass="p-button-text"></p-button>
+    <p-button (click)="displayDeleteTour=false" label="Нет, оставить тур" styleClass="p-button-text"></p-button>
+  </ng-template>
+</p-dialog>

@@ -1,0 +1,10 @@
+<div class="d-flex">
+  <div class="flex-grow-1">
+  <p-menubar [model]="items">
+    <div class="user-login" *ngIf="user?.login">
+      Добро пожаловать,
+      {{user?.login}}
+    </div>
+     </p-menubar>
+  </div>
+</div>

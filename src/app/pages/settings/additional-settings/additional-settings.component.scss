@@ -1,0 +1,14 @@
+.settings-input span {
+  width: 238px;
+  display: inline-block;
+}
+
+.cardNumber-block:after {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  content: "";
+  height: 1px;
+  background: rgba(127, 127, 127, 0.3);
+  display: block;
+}
+

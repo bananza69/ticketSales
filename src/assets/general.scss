@@ -1,0 +1,55 @@
+//тут все общие стили
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Times New Roman, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+.color-text {
+  color: #969696
+}
+
+.input-error {
+  border: 1px solid red !important;
+}
+
+body {
+  height: 100vh;
+}
+
+
+.fon-1 {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-image: url("img/breathtaking-shot-of-beautiful-stones-under-turquoise-water-of-a-lake-and-hills-in-the-background.jpg");
+  z-index: -2;
+  opacity: .85;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.fon-2 {
+  background-color: rgba(1, 29, 61, 0.3);
+  z-index: -1;
+  padding: 3rem;
+}
+
+.fon-footer-1{
+  color: rgba(1, 29, 61, 0.91);
+  background: rgba(59, 130, 246, 0.2);
+  font-weight: 600;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: justify;
+}
+.logo-footer-modal-header{
+  color: rgba(59, 130, 246);
+  font-weight: 800;
+}
+.color-accent{
+  color: rgb(59, 130, 246);;
+}

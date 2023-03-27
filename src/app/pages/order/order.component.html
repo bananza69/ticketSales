@@ -1,0 +1,113 @@
+<div class="admin-order" *ngIf="user?.login==='Admin'">
+
+  <div class="table-header ">Список всех заказов</div>
+  <p-table  [value]="userLoginOrders"[rows]="10" [paginator]="true">
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="" *ngFor="let col of colsAllOrders" [pSortableColumn]="col.field">
+          {{col.header}}
+          <p-sortIcon [field]="col.field"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-userLoginOrders let-rowIndex="rowIndex">
+      <tr>
+        <td>{{ rowIndex+1 }}</td>
+        <td *ngIf="userLoginOrders?.orderType ==='newOrder'">
+
+          <button (click)="showChangeOrderType(userLoginOrders,'approvedOrder')" style="width: 2rem ; height: 2rem"
+                    pTooltip="подтвердить заказ" tooltipPosition="top" pButton type="button" icon="pi pi-check"
+                    class="p-button-rounded m-1 approved"></button>
+
+         <button (click)="showChangeOrderType(userLoginOrders, 'canceledOrder')" style="width: 2rem ; height: 2rem"
+                 pTooltip="отменить заказ" tooltipPosition="top" pButton type="button" icon="pi pi-times"
+                 class="p-button-rounded p-button-danger m-1 canceled"></button>
+
+        </td>
+        <td class="approvedOrder p-4" *ngIf="userLoginOrders?.orderType ==='approvedOrder'">подтвержден</td>
+        <td class="canceledOrder color-text p-4" *ngIf="userLoginOrders?.orderType ==='canceledOrder'">отменен</td>
+
+        <td>{{userLoginOrders.login}}</td>
+        <td pTooltip="подробнее о туре" tooltipPosition="top"
+            (click)="goToTicketInfoPage(userLoginOrders)">{{userLoginOrders.nameTicket}},<br>
+          г.{{userLoginOrders.location}} {{userLoginOrders.date| date:"dd/MM/yyyy"}}</td>
+        <td>{{userLoginOrders.price}}, руб.</td>
+        <td>{{userLoginOrders.firstName}} {{userLoginOrders.lastName}},<br>дата рождения {{userLoginOrders.birthDay| date:"dd/MM/yyyy"}} </td>
+        <td>тел.:{{userLoginOrders.phone}},<br>e-mail: {{userLoginOrders.eMail}}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-dialog  [(visible)]="displayOrderApproved" [breakpoints]="{'960px': '75vw'}" [style]="{width: '40vw'}"
+             [draggable]="false" [resizable]="false">
+    <p class="fon-footer-1">Заказ <span class="color-accent">{{orderName}} от {{orderDate| date:"dd/MM/yyyy"}}</span> для пользователя <span class="color-accent">{{orderlogin}}</span> ПОДТВЕРЖДЕН</p>
+    <ng-template pTemplate="footer">
+      <p-button (click)="changeOrderType(orderId, 'approvedOrder')" label="Да, подтвердить действие" styleClass="p-button-text"></p-button>
+      <p-button (click)="displayOrderApproved=false" label="Нет, закрыть окно без подтверждения" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-dialog>
+
+  <p-dialog  [(visible)]="displayOrderCanceled" [breakpoints]="{'960px': '75vw'}" [style]="{width: '40vw'}"
+             [draggable]="false" [resizable]="false">
+    <p class="fon-footer-1">Заказ <span class="color-accent">{{orderName}} от {{orderDate| date:"dd/MM/yyyy"}}</span> для пользователя <span class="color-accent">{{orderlogin}}</span> ОТМЕНЕН</p>
+    <ng-template pTemplate="footer">
+      <p-button (click)="changeOrderType(orderId, 'canceledOrder')" label="Да, подтвердить действие" styleClass="p-button-text"></p-button>
+      <p-button (click)="displayOrderCanceled=false" label="Нет, закрыть окно без подтверждения" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-dialog>
+
+</div>
+
+<div class="user-order" *ngIf="user?.login!=='Admin'">
+  <div *ngIf="user?.cardNumber" class="user-card">
+    <div class="fw-bold">Номер VIP-карты: {{user?.cardNumber}} </div>
+    <div *ngIf="ordersApproved">Вы уже накопили {{ordersApproved * 100}} баллов</div>
+  </div>
+  <div *ngIf="orders?.length===0" class="empty-list">Список заказов пока пуст. Перейдите в раздел <a class="color-accent" routerLink="/tickets/tickets-list">Туры</a> для выбора увлекательного путешествия!</div>
+  <div *ngIf="orders?.length !==0">
+  <div  class="table-header ">Список заказанных туров</div>
+  <p-table [value]="orders" [scrollable]="true" [rowHover]="true"
+           [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25]"
+           [paginator]="true">
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+          {{col.header}}
+          <p-sortIcon [field]="col.field"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-orders let-rowIndex="rowIndex">
+      <tr>
+        <td>{{rowIndex+1}}</td>
+        <td class="newOrder parent" *ngIf="orders?.orderType ==='newOrder'">в обработке
+          <button (click)="showDeleteOrderDialog(orders)"
+                  *ngIf="orders?.orderType ==='newOrder'"
+                  pTooltip="удалить заказ"  tooltipPosition="top" class=" canceled child" pButton  icon="pi pi-times"></button>
+        </td>
+        <td class="approvedOrder" *ngIf="orders?.orderType ==='approvedOrder'">подтвержден</td>
+        <td class="color-text" *ngIf="orders?.orderType ==='canceledOrder'">отменен</td>
+        <td pTooltip="подробнее о туре" tooltipPosition="top" (click)="goToTicketInfoPage(orders)">{{orders.nameTicket}}</td>
+        <td>{{orders.price}}</td>
+        <td>{{orders.date| date:"dd/MM/yyyy"}}</td>
+        <td>{{orders.location}}</td>
+        <td>{{orders.firstName}}</td>
+        <td>{{orders.lastName}}</td>
+        <td>{{orders.phone}}</td>
+        <td>{{orders.eMail}}</td>
+      </tr>
+
+    </ng-template>
+  </p-table>
+  </div>
+  <p-dialog  [(visible)]="displayDeleteOrder" [breakpoints]="{'960px': '75vw'}" [style]="{width: '40vw'}"
+            [draggable]="false" [resizable]="false">
+    <p class="fon-footer-1">Вы уверены, что хотите отменить заказ <span class="color-accent">{{orderName}} от {{orderDate| date:"dd/MM/yyyy"}}</span>?<br>Действие невозможно отменить</p>
+    <ng-template pTemplate="footer">
+      <p-button (click)="deleteOrder()" label="Да, удалить заказ" styleClass="p-button-text"></p-button>
+      <p-button (click)="displayDeleteOrder=false" label="Нет, оставить заказ" styleClass="p-button-text"></p-button>
+    </ng-template>
+  </p-dialog>
+</div>
+
+

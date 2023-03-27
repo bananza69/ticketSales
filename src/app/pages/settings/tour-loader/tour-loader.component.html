@@ -1,0 +1,54 @@
+<div class="mt-2 tour-loader-wrap">
+  <h4>Создание нового тура</h4>
+  <div class="mt-3" [formGroup]="tourForm">
+
+    <div class="mt-3">
+      <span class="">Название тура</span>
+      <input type="text" class="" formControlName="name" pInputText/>
+    </div>
+
+    <div class="mt-3">
+      <span class="">Город</span>
+      <input type="text" class="" formControlName="location" pInputText/>
+    </div>
+
+    <div class="mt-3">
+      <span class="">Дата тура</span>
+      <p-calendar class="w-220" formControlName="date" (onSelect)="selectDate($event)"></p-calendar>
+    </div>
+
+    <div class="mt-3">
+      <span class="">Туроператор</span>
+      <input type="text" class="" formControlName="tourOperator" pInputText/>
+    </div>
+
+    <div class="mt-3">
+      <span class="">Стоимость (RUB)</span>
+      <input type="number" min="0" class="" formControlName="price" pInputText/>
+    </div>
+
+    <div class="mt-3">
+      <span class="">Тип тура</span>
+      <p-dropdown class="w-220" [options]="tourTypes" formControlName="type"></p-dropdown>
+    </div>
+
+    <div class="mt-3">
+      <span class="">Изображение </span>
+      <input type="file" class="" (change)="selectFile($event)" formControlName="img" pInputText/>
+    </div>
+
+    <div class="mt-3">
+      <span class="d-flex flex-wrap">Подробное описание тура : </span>
+      <textarea class="p-inputtext mt-2" formControlName="description">
+        </textarea>
+    </div>
+
+  </div>
+
+  <div class="mt-2">
+    <button pButton class="p-button-info" type="submit" (click)="createTour()" [disabled]="!tourForm.valid">
+      Загрузить созданный тур
+    </button>
+  </div>
+
+</div>

@@ -1,0 +1,67 @@
+img {
+  object-fit: cover;
+}
+
+.ticket-info-description{
+  text-align: justify;
+}
+
+.input-box {
+  position: relative;
+  margin: 3.5rem 0 3.5rem ;
+}
+
+input {
+  background: #fff;
+  padding: 10px;
+  border-radius: 6px;
+  width: 220px;
+}
+
+label {
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  background: #fff;
+  padding: 0 5px;
+  z-index: 1;
+
+}
+.h-250{
+  max-height: 380px;
+}
+
+.col-width {
+  max-width: 260px;
+}
+
+.ticket-info-img{
+  border-radius: 20px;
+}
+//стандартное поведение элемента
+.fon-img{
+
+  opacity: .8; //непрозрачность элемента 80%
+  transition: opacity .5s ease-in-out;
+}
+//поведение элемента при наведении
+.fon-img:hover{
+  opacity: 1; //непрозрачность элемента 100%
+  cursor: pointer; //изменение курсора
+  transition: all .5s ease-in-out; //плавность изменения свойства
+}
+.ticket-info{
+  margin: 0 4rem .5rem 0;
+}
+.user-info{
+
+  & span{
+    width: 180px;
+    display: inline-block;
+  }
+
+}
+.order-button{
+  margin-top: 2rem;
+}
+

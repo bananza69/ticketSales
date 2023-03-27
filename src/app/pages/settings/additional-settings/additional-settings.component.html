@@ -1,0 +1,62 @@
+<div class="mx-5 pt-3 d-flex flex-column col-8 settings-input justify-content-center settings-input">
+  <div class="cardNumber-block">
+    <div *ngIf="user?.cardNumber">
+      <span class="fw-bold user-card">Текущий номер VIP-карты: </span>
+      <input type="text" readonly class="mt-3"
+             value="{{this.user?.cardNumber}}"
+             pInputText/>
+      <div>
+        <span>Введите номер новой VIP-карты</span>
+        <input type="text" class="mt-3"
+               value="{{this.user?.cardNumber}}"
+               pInputText
+               [(ngModel)]="setCardNumber"/>
+      </div>
+    </div>
+
+    <div *ngIf="!user?.cardNumber">
+      <div class="fw-bold user-card">VIP-карта отсутствует</div>
+      <div>
+        <span>Введите номер новой VIP-карты</span>
+        <input type="text" class="mt-3"
+               value=""
+               pInputText
+               [(ngModel)]="setCardNumber"/>
+      </div>
+    </div>
+  </div>
+  <div class="eMail-block">
+    <div *ngIf="user?.email">
+      <span class="fw-bold user-card">Текущий e-mail: </span>
+      <input type="text" readonly class="mt-3"
+             value="{{this.user?.email}}"
+             pInputText/>
+      <div>
+        <span>Введите новый e-mail</span>
+        <input type="text" class="mt-3"
+               value=""
+               pInputText
+               [(ngModel)]="setEmail"/>
+      </div>
+    </div>
+
+    <div *ngIf="!user?.email">
+      <div class="fw-bold user-card">E-mail отсутствует</div>
+      <div>
+        <span>Введите новый e-mail</span>
+        <input type="text" class="mt-3 "
+               value=""
+               pInputText
+               [(ngModel)]="setEmail"/>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="d-flex">
+    <button
+      pButton (click)="setAdditionalSettings($event)" type="button"
+      class="p-button-info mt-5">Сохранить настройки
+    </button>
+  </div>
+</div>

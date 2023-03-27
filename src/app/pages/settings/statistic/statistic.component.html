@@ -1,0 +1,34 @@
+<p-accordion>
+  <p-accordionTab header="Статистика по турам" >
+    <p-table   [value]="ticketOrder" [scrollable]="true" [rowHover]="true"
+               [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10,25]"
+               [paginator]="true">
+      <ng-template pTemplate="header">
+        <tr>
+          <th *ngFor="let col of cols" [pSortableColumn]="col.field">
+            {{col.header}}
+            <p-sortIcon [field]="col.field"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-ticketOrder>
+        <tr>
+          <td>{{ticketOrder.name}}</td>
+          <td>{{ticketOrder.price}}</td>
+          <td>{{ticketOrder.location}}</td>
+          <td>{{ticketOrder.date | date:"dd/MM/yyyy"}}</td>
+          <td>{{ticketOrder.countBooking}}</td>
+          <td>{{ticketOrder.countBooking*ticketOrder.price}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-accordionTab>
+
+  <p-accordionTab header="Статистика по городам">
+    <div class="card">
+      <p-chart type="bar" [data]="basicData" [options]="basicOptions"></p-chart>
+    </div>
+  </p-accordionTab>
+</p-accordion>
+
+

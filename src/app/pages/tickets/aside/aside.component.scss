@@ -1,0 +1,22 @@
+:host {
+  min-width: 300px;
+  width: 300px;
+  flex-basis: 300px;
+  border: 1px solid rgba(128, 128, 128, 0.27);
+  height: 100%;
+
+}
+
+.sort::before {
+  margin-top: .4rem;
+  margin-bottom: .4rem;
+  content: "";
+  height: 1px;
+  background: rgba(127, 127, 127, 0.3);
+  display: block;
+}
+
+.dropdown-aside {
+  min-width: 137px;
+}
+

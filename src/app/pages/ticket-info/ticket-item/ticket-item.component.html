@@ -1,0 +1,96 @@
+<p-toast position="top-left"></p-toast>
+<div class="main-block  d-flex justify-content-start flex-row flex-wrap ">
+  <!--  блок с информацией о туре -->
+<div class="ticket-info d-flex">
+  <p-card class=" d-flex justify-content-center"  header="Тур «{{ticket?.name}}», г.&nbsp;{{ticket?.location}}"
+          subheader="Стоимость тура: {{ticket?.price}} руб. Дата отправления {{ticket?.date | date:'dd/MM/yyyy'}}" [style]="{width: '680px'}"
+          styleClass="p-card-shadow">
+    <ng-template  pTemplate="header">
+      <div class=" d-flex justify-content-center">
+      <img class="rounded h-250" alt="ticket-img" src="http://localhost:3000/public/{{ticket?.img}}">
+      </div>
+    </ng-template>
+    <div class="ticket-info-description">{{ticket?.description}}
+      <div *ngIf="this.ticket?.type==='single'" class="ticket-info-type">Тип тура: одиночный</div>
+      <div *ngIf="this.ticket?.type==='multi'" class="ticket-info-type">Тип тура: групповой</div></div>
+ </p-card>
+  </div>
+  <!--  блок с личными данными клиента-->
+  <div class="user-info d-flex ">
+    <p-fieldset legend="Забронируй первым!">
+      <div class="user-info d-flex flex-wrap flex-row mx-2" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+        <div class=" col-width d-flex flex-wrap">
+          <div class=" p-2">
+            <span>Имя</span>
+            <input type="text"
+                   pInputText
+                   formControlName="firstName" />
+          </div>
+          <div class=" p-2">
+            <span>Фамилия</span>
+            <input type="text"
+                   pInputText
+                   formControlName="lastName" />
+          </div>
+          <div class=" p-2">
+            <span>Гражданство</span>
+            <input type="text"
+                   pInputText
+                   formControlName="citizen" />
+          </div>
+        </div>
+        <div class=" col-width d-flex flex-wrap">
+          <div class=" p-1">
+            <span>Дата рождения</span>
+            <p-calendar formControlName="birthDay"
+                        (onSelect)="selectDate($event)">
+            </p-calendar>
+          </div>
+          <div class=" p-2">
+            <span>Мобильный телефон</span>
+            <input type="text"
+                   pInputText
+                   formControlName="phone" />
+          </div>
+          <div class="col-width p-2">
+            <span>e-mail</span>
+            <input type="text"
+                   pInputText
+                   formControlName="eMail"
+                   value="{{this.user?.email}}" />
+          </div>
+        </div>
+      </div>
+
+      <div  class="order-button mx-3 d-flex justify-content-center">
+        <button  pButton class="p-button-info" type="submit"
+                 (click)="initTour()"
+                 [disabled]="!userForm.valid">
+          Забронировать тур
+        </button>
+      </div>
+    </p-fieldset>
+  </div>
+</div>
+
+<div class="color-text input-box">
+  <input (click)="focus()" class="searchInput  " #ticketSearch [(ngModel)]="ticketSearchValue" type="text" pInputText/>
+  <label class="d-flex flex-wrap small color-text"><em>поиск тура</em></label>
+</div>
+<div id="focus">
+  <p-carousel [numVisible]="4" [numScroll]="1" [circular]="true" [value]="tickets">
+    <ng-template  let-tickets pTemplate="item" >
+      <div class="d-flex flex-wrap fon-img ">
+        <div class="ticket-img-nearest mx-2" (click)="goToTicketInfoPage(tickets)">
+          <img width=350 height=280 class="rounded " src="http://localhost:3000/public/{{tickets.img}}"/>
+          <div class="mx-3 color-text">{{tickets.name}} {{tickets.date | date:"dd/MM/yyyy"}} </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>
+
+
+
+
