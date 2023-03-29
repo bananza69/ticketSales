@@ -1,15 +1,15 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {ICustomTourLocation, INearestTour, ITour, ITourLocation} from "../../../models/tours";
+import {ITour} from "../../../models/tours";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TicketsStorageService} from "../../../services/tiсketstorage/tiсketstorage.service";
 import {IUser} from "../../../models/users";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../services/user/user.service";
 import {TicketsService} from "../../../services/tickets/tickets.service";
-import {debounceTime, forkJoin, fromEvent, Observable, single, Subscription} from "rxjs";
+import {debounceTime, fromEvent, Subscription} from "rxjs";
 import {IOrder} from "../../../models/order";
 import {MessageService} from "primeng/api";
-import {TicketsRestService} from "../../../services/rest/tickets-rest.service";
+
 
 
 @Component({
@@ -23,8 +23,6 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
   user: IUser | any;
   userForm: FormGroup;
   ticketSearchValue: string;
-  // nearestTours: ITour[];
-  // tourLocation: ITourLocation[];
   tickets: ITour[];
   @ViewChild('ticketSearch') ticketSearch: ElementRef;
   searchTicketSub: Subscription;
@@ -71,7 +69,7 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
     if (paramValueId) {
       this.ticketService.getTicketById(paramValueId).subscribe((data) => {
         this.ticket = data;
-      })
+     })
     }
 
     this.ticketService.getTickets().subscribe(
@@ -87,9 +85,9 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const fromEventObserver = fromEvent(this.ticketSearch.nativeElement, "keyup");
     this.searchTicketSub = fromEventObserver.pipe(
-      debounceTime(200)).subscribe((ev: any) => {
+      debounceTime(300)).subscribe((ev: any) => {
         if (this.ticketSearchValue) {
-          this.tickets = this.ticketsCopy.filter((el) =>
+          this.tickets = this.tickets.filter((el) =>
             el.name.toLowerCase().includes(this.ticketSearchValue.toLowerCase()));
         } else {
           this.tickets = [...this.ticketsCopy];
@@ -97,6 +95,7 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     );
   }
+
 
   onSubmit(): void {
   };
@@ -107,7 +106,6 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.searchTicketSub.unsubscribe();
   }
-
 
   initTour(): void {
     // данные формы бронирования
@@ -148,12 +146,14 @@ export class TicketItemComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   goToTicketInfoPage(tour: ITour) {
+
     this.router.navigate(['/tickets/ticket'], {
         queryParams: {id: tour._id},
         relativeTo: this.route
       }
     );
   }
+
   focus():void{
     const element = document.getElementById("focus") as HTMLElement;
     element.scrollIntoView({ behavior: "smooth", block: "end" });

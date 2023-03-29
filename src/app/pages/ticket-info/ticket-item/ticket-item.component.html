@@ -11,8 +11,8 @@
       </div>
     </ng-template>
     <div class="ticket-info-description">{{ticket?.description}}
-      <div *ngIf="this.ticket?.type==='single'" class="ticket-info-type">Тип тура: одиночный</div>
-      <div *ngIf="this.ticket?.type==='multi'" class="ticket-info-type">Тип тура: групповой</div></div>
+      <div *ngIf="ticket?.type==='single'" class="ticket-info-type">Тип тура: одиночный (1-3 человека)</div>
+      <div *ngIf="ticket?.type==='multi'" class="ticket-info-type">Тип тура: групповой (группа 10-15 человек)</div></div>
  </p-card>
   </div>
   <!--  блок с личными данными клиента-->
@@ -79,17 +79,18 @@
   <label class="d-flex flex-wrap small color-text"><em>поиск тура</em></label>
 </div>
 <div id="focus">
-  <p-carousel [numVisible]="4" [numScroll]="1" [circular]="true" [value]="tickets">
-    <ng-template  let-tickets pTemplate="item" >
+  <p-carousel [value]="tickets" [numVisible]="3" [numScroll]="3" [circular]="false">
+    <ng-template  let-ticket pTemplate="item" >
       <div class="d-flex flex-wrap fon-img ">
-        <div class="ticket-img-nearest mx-2" (click)="goToTicketInfoPage(tickets)">
-          <img width=350 height=280 class="rounded " src="http://localhost:3000/public/{{tickets.img}}"/>
-          <div class="mx-3 color-text">{{tickets.name}} {{tickets.date | date:"dd/MM/yyyy"}} </div>
+        <div class="ticket-img-nearest mx-2" (click)="goToTicketInfoPage(ticket)">
+          <img width=350 height=280 class="rounded " src="http://localhost:3000/public/{{ticket.img}}"/>
+          <div class="mx-3 color-text">{{ticket.name}} {{ticket.date | date:"dd/MM/yyyy"}} </div>
         </div>
       </div>
     </ng-template>
   </p-carousel>
 </div>
+
 
 
 
