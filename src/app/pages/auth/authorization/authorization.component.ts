@@ -26,7 +26,7 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   cardNumber: string;
   authTextButton: string;
   authCardNumber: string;
-
+  error: boolean = false;
 
   constructor(private authService: AuthService,
               private messageService: MessageService,
@@ -91,6 +91,12 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
       // console.log('err', err)
       const serverError = <ServerError>err.error;
       this.messageService.add({severity: 'warn', summary: serverError.errorText});
+      this.error = true;
     });
   }
+
+  onInputAuth() {
+    this.error = false;
+  }
+
 }

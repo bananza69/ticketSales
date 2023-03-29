@@ -3,14 +3,16 @@
     <span class="mt-1 ">{{loginText}}</span>
     <input type="text"
            pInputText
-           [ngClass]="{'input-error': !login}"
+           [ngClass]="{'input-error': error}"
+           (focus)="onInputAuth()"
            [(ngModel)]="login"/>
   </div>
   <div class="mt-2">
     <span class="mt-1">{{pswText}}</span>
     <input type="password"
            pInputText
-           [ngClass]="{'input-error': !psw}"
+           [ngClass]="{'input-error': error}"
+           (focus)="onInputAuth()"
            [(ngModel)]="psw"/>
   </div>
   <div class="mt-3">

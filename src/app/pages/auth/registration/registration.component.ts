@@ -4,7 +4,7 @@ import {IUser} from "../../../models/users";
 import {AuthService} from "../../../services/auth/auth.service";
 import {ConfigService} from "../../../services/config/config.service";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {ServerError} from "../../../models/erorr";
+import {ErrorRegistration, ServerError} from "../../../models/erorr";
 import * as bcrypt from "bcryptjs";
 
 @Component({
@@ -21,6 +21,7 @@ export class RegistrationComponent implements OnInit {
   cardNumber: string;
   saveUserLocalStore: [login: string, psw: string];
   showUserCard: boolean;
+  error: ErrorRegistration = <ErrorRegistration>{};
 
   constructor(private messageService: MessageService,
               private authService: AuthService,
@@ -34,6 +35,7 @@ export class RegistrationComponent implements OnInit {
   registration(ev: Event): void | boolean {
     if (this.psw !== this.pswRepeat) {
       this.messageService.add({severity: 'error', summary: 'Пароли не совпадают'});
+      this.error.password = true;
       return false;
     }
 
@@ -57,7 +59,12 @@ export class RegistrationComponent implements OnInit {
     }, (err: HttpErrorResponse) => {
       const serverError = <ServerError>err.error;
       this.messageService.add({severity: 'warn', summary: serverError.errorText});
+      if (serverError.status === 409) this.error.login = true;
     });
-
   }
+  onInputReg() {
+    this.error.login = false;
+    this.error.password = false;
+  }
+
 }

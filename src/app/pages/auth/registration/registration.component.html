@@ -3,7 +3,8 @@
     <span class="mt-1">Логин</span>
     <input type="text"
            pInputText
-           [ngClass]="{'input-error': !login}"
+           (focus)="onInputReg()"
+           [ngClass]="{'input-error': error.login}"
            [(ngModel)]="login"/>
   </div>
 
@@ -11,7 +12,8 @@
     <span class="mt-1">Пароль</span>
     <input type="password"
            pInputText
-           [ngClass]="{'input-error': !psw}"
+           (focus)="onInputReg()"
+           [ngClass]="{'input-error': error.password}"
            [(ngModel)]="psw"/>
   </div>
 
@@ -19,7 +21,8 @@
     <span class="mt-1">Подтверждение пароля</span>
     <input type="password"
            pInputText
-           [ngClass]="{'input-error': !pswRepeat}"
+           (focus)="onInputReg()"
+           [ngClass]="{'input-error': error.password}"
            [(ngModel)]="pswRepeat"/>
   </div>
 
